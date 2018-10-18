@@ -1,8 +1,9 @@
-package com.skyous.trakkit
+package com.skyous.trakkit.ui
 
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import com.skyous.trakkit.R
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
