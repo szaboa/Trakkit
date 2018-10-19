@@ -5,6 +5,7 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import com.skyous.trakkit.R
 import com.skyous.trakkit.ui.navigation.MainNavigator
+import com.skyous.trakkit.TrakkitApplication
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -40,5 +41,7 @@ class MainActivity : AppCompatActivity() {
         mainNavigator.navigateTo(MainNavigator.Tab.HOME)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        TrakkitApplication.getComponent().inject(this)
     }
 }
