@@ -7,3 +7,9 @@ package com.skyous.trakkit.ui.navigation.core
  * @since 10/19/2018
  *
  */
+
+interface BackNavigationListener {
+
+    fun onNavigatedBack(tab:MainNavigator.Tab){}
+
+}
