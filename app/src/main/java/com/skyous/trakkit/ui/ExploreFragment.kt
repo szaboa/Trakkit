@@ -1,4 +1,4 @@
-package com.skyous.trakkit.ui.navigation
+package com.skyous.trakkit.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -14,14 +14,14 @@ import com.skyous.trakkit.R
  * @since 10/18/2018
  *
  */
-class BrowseFragment : Fragment() {
+class ExploreFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_browse, container, false)
+        return inflater.inflate(R.layout.fragment_explore, container, false)
     }
 
     companion object {
         @JvmStatic
-        fun newInstance() = BrowseFragment()
+        fun newInstance() = ExploreFragment()
     }
 }

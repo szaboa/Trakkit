@@ -9,41 +9,22 @@ import com.skyous.trakkit.ui.navigation.core.BackNavigationListener
 import com.skyous.trakkit.ui.navigation.core.MainNavigator
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(),BackNavigationListener {
+class MainActivity : AppCompatActivity(), BackNavigationListener {
 
     private val mainNavigator: MainNavigator = MainNavigator.instance
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-        when (item.itemId) {
-            R.id.navigation_home -> {
-                mainNavigator.navigateTo(MainNavigator.Tab.HOME)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_library -> {
-                mainNavigator.navigateTo(MainNavigator.Tab.LIBRARY)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_browse -> {
-                mainNavigator.navigateTo(MainNavigator.Tab.BROWSE)
-                return@OnNavigationItemSelectedListener true
-            }
-            R.id.navigation_profile -> {
-                mainNavigator.navigateTo(MainNavigator.Tab.PROFILE)
-                return@OnNavigationItemSelectedListener true
-            }
-        }
-        false
+        mainNavigator.navigateTo(item.itemId)
+        true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainNavigator.setHost(this)
+        mainNavigator.setHost(this, savedInstanceState)
         TrakkitApplication.getComponent().inject(this)
-        mainNavigator.navigateTo(MainNavigator.Tab.HOME)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
     }
 
     override fun onBackPressed() {
@@ -51,6 +32,16 @@ class MainActivity : AppCompatActivity(),BackNavigationListener {
             return
         }
         super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        mainNavigator.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        mainNavigator.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onNavigatedBack(tab: MainNavigator.Tab) {
