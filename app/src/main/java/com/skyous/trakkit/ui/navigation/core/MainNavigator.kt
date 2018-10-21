@@ -20,17 +20,11 @@ import java.lang.ref.WeakReference
  *
  */
 
-class MainNavigator private constructor() {
+class MainNavigator {
 
-    private object Holder {
-        val INSTANCE = MainNavigator()
+    companion object {
+        const val TAG = "MainNavigator"
     }
-
-    private lateinit var hostActivity: WeakReference<FragmentActivity>
-    private var backNavigationListener: BackNavigationListener? = null
-
-    private val fragmentContainer: HashMap<String, Fragment> = HashMap()
-    private val navigationHistory: ArrayList<MainNavigator.Tab> = ArrayList()
 
     enum class Tab(val tabName: String, val itemResId: Int) {
         HOME("home", R.id.navigation_home),
@@ -50,14 +44,15 @@ class MainNavigator private constructor() {
         }
     }
 
-    companion object {
-        val instance: MainNavigator by lazy { Holder.INSTANCE }
-        private const val TAG = "MainNavigator"
-    }
+    private var hostActivity: WeakReference<FragmentActivity>? = null
+    private var backNavigationListener: BackNavigationListener? = null
+
+    private val fragmentContainer: HashMap<String, Fragment> = HashMap()
+    private val navigationHistory: ArrayList<MainNavigator.Tab> = ArrayList()
 
     /**
      * Method to be called from the consumer Activity's onCreate method.
-     * The passed fragment activity should also implement BackNavigationListener,
+     * The passed fragment activity should also implement [BackNavigationListener],
      * otherwise Illegal state exception will be thrown.
      *
      * Sets initial tab or restores last displayed tab (before process was killed)
@@ -65,11 +60,9 @@ class MainNavigator private constructor() {
      */
     fun setHost(host: FragmentActivity, savedInstanceState: Bundle?) {
 
-        if (hostActivity.get() != null)
-            throw java.lang.IllegalStateException("Host is already set!")
+        if (hostActivity?.get() != null) throw java.lang.IllegalStateException("Host is already set!")
 
-        if (host !is BackNavigationListener)
-            throw IllegalStateException("Host must implement BackNavigationListener")
+        if (host !is BackNavigationListener) throw IllegalStateException("Host must implement BackNavigationListener")
 
         backNavigationListener = host
         hostActivity = WeakReference(host)
@@ -78,43 +71,23 @@ class MainNavigator private constructor() {
             //restoring state
             Log.d(TAG, "Restoring navigation history.")
             navigationHistory.addAll(savedInstanceState.getSerializable("nav_history") as ArrayList<Tab>)
-            navigateToInternal(navigationHistory.removeAt(navigationHistory.lastIndex), null, false)
+            navigateToInternal(navigationHistory.removeAt(navigationHistory.lastIndex), false)
         } else {
             //navigating to the default tab
-            navigateToInternal(Tab.HOME, null, false)
+            navigateToInternal(Tab.HOME, false)
         }
     }
 
     /**
-     * Navigates to the given {@see MainNavigator.Tab}.
-     *
-     * @return true if the given tab already exists in the nav history or if the given tab
-     * is the same as the currently displayed, false otherwise
-     */
-    fun navigateTo(tab: MainNavigator.Tab): Boolean {
-        return navigateToInternal(tab, null, false)
-    }
-
-    /**
-     * Navigates to the {@see MainNavigator.Tab} with the given resource ID
-     *
-     * @return true if the given tab already exists in the nav history or if the given tab
-     * is the same as the currently displayed, false otherwise
-     */
-    fun navigateTo(tabResourceId: Int): Boolean {
-        return navigateToInternal(MainNavigator.Tab.fromItemResourceId(tabResourceId), null, false)
-    }
-
-    /**
-     * Navigates to the given {@see MainNavigator.Tab}.
+     * Navigates to the given [MainNavigator.Tab].
      *
      * @param extras extras to be set to the destination tab's fragment
      *
      * @return true if the given tab already exists in the nav history or if the given tab
      * is the same as the currently displayed, false otherwise
      */
-    fun navigateTo(tab: MainNavigator.Tab, extras: Bundle?): Boolean {
-        return navigateToInternal(tab, extras, false)
+    fun navigateTo(tab: MainNavigator.Tab, extras: Bundle? = null): Boolean {
+        return navigateToInternal(tab, false, extras)
     }
 
     /**
@@ -125,12 +98,12 @@ class MainNavigator private constructor() {
      * @return true if the given tab already exists in the nav history or if the given tab
      * is the same as the currently displayed, false otherwise
      */
-    fun navigateTo(tabResourceId: Int, extras: Bundle?): Boolean {
-        return navigateToInternal(MainNavigator.Tab.fromItemResourceId(tabResourceId), extras, false)
+    fun navigateTo(tabResourceId: Int, extras: Bundle? = null): Boolean {
+        return navigateToInternal(MainNavigator.Tab.fromItemResourceId(tabResourceId), false, extras)
     }
 
     /**
-     * Function to be called from host hostActivity's onBackPressed method.
+     * Function to be called from host's [FragmentActivity.onBackPressed] method.
      *
      * @return true if the back navigation was handled, false otherwise
      * False value means that host should handle back navigation
@@ -140,7 +113,7 @@ class MainNavigator private constructor() {
             navigationHistory.size > 1 -> {
                 val tabToNavigate = navigationHistory[navigationHistory.lastIndex - 1]
                 Log.d(TAG, "Navigating back...")
-                navigateToInternal(tabToNavigate, null, true)
+                navigateToInternal(tabToNavigate, true)
                 backNavigationListener?.onNavigatedBack(tabToNavigate)
                 true
             }
@@ -161,11 +134,11 @@ class MainNavigator private constructor() {
         navigationHistory.clear()
         fragmentContainer.clear()
         backNavigationListener = null
-        hostActivity.clear()
+        hostActivity?.clear()
     }
 
-    private fun navigateToInternal(tab: MainNavigator.Tab, extras: Bundle?, isBackNavigation: Boolean): Boolean {
-        val supportFragmentManager = hostActivity.get()?.supportFragmentManager
+    private fun navigateToInternal(tab: MainNavigator.Tab, isBackNavigation: Boolean, extras: Bundle? = null): Boolean {
+        val supportFragmentManager = hostActivity?.get()?.supportFragmentManager
 
         return if (!navigationHistory.isEmpty() && tab == navigationHistory[navigationHistory.lastIndex]) {
             //trying to navigate to the same tab

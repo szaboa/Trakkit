@@ -8,12 +8,14 @@ import com.skyous.trakkit.TrakkitApplication
 import com.skyous.trakkit.ui.navigation.core.BackNavigationListener
 import com.skyous.trakkit.ui.navigation.core.MainNavigator
 import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity(), BackNavigationListener {
 
-    private val mainNavigator: MainNavigator = MainNavigator.instance
+    @Inject
+    lateinit var mainNavigator: MainNavigator
 
-    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         mainNavigator.navigateTo(item.itemId)
         true
     }
@@ -21,10 +23,10 @@ class MainActivity : AppCompatActivity(), BackNavigationListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        mainNavigator.setHost(this, savedInstanceState)
         TrakkitApplication.getComponent().inject(this)
+        mainNavigator.setHost(this, savedInstanceState)
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
     }
 
     override fun onBackPressed() {
