@@ -32,8 +32,10 @@ jobs:
 
 workflows:
   version: 2
+
   dev-pull-request-merged:
-    jobs: build
-      filters:
-        branches:
-          only: develop
+    jobs:
+      - build
+          filters:
+            branches:
+              only: develop
