@@ -29,7 +29,7 @@ class TrakkitApplication : Application() {
     private fun initDagger(): ApplicationComponent {
         return DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
-                .networkModule(NetworkModule("https://.."))
+                .networkModule(NetworkModule("https://..."))
                 .repositoryModule(RepositoryModule())
                 .build()
     }
