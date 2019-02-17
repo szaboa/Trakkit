@@ -1,41 +1,53 @@
 package com.skyous.trakkit.ui
 
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import butterknife.BindView
-import butterknife.ButterKnife
-import com.bumptech.glide.Glide
 import com.skyous.trakkit.R
 import com.skyous.trakkit.TrakkitApplication
-import java.util.*
+import com.skyous.trakkit.ui.navigation.core.BackNavigationListener
+import com.skyous.trakkit.ui.navigation.core.MainNavigator
+import kotlinx.android.synthetic.main.activity_main.*
+import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), BackNavigationListener {
 
-    @BindView(R.id.recyclerView)
-    lateinit var recyclerView: RecyclerView
+    @Inject
+    lateinit var mainNavigator: MainNavigator
+
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        mainNavigator.navigateTo(item.itemId)
+        true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        ButterKnife.bind(this)
-
-        val list: ArrayList<SeriesViewModel> = ArrayList()
-        for (i in 1..10) {
-            list.add(SeriesViewModel("Title $i"))
-        }
-
-        val componentList: ArrayList<HorizontalStripe<BaseViewModel>> = ArrayList()
-        for (i in 1..10) {
-            componentList.add(HorizontalStripe("Stripe $i", list))
-        }
-
-        val adapter = VerticalComponentListAdapter<BaseViewModel>(Glide.with(this))
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        adapter.setItemList(componentList)
-
         TrakkitApplication.getComponent().inject(this)
+        mainNavigator.setHost(this, savedInstanceState)
+
+        navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+    }
+
+    override fun onBackPressed() {
+        if (mainNavigator.onBackPressed()) {
+            return
+        }
+        super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        mainNavigator.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        mainNavigator.onSaveInstanceState(outState)
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onNavigatedBack(tab: MainNavigator.Tab) {
+        navigation.selectedItemId = tab.itemResId
+        super.onNavigatedBack(tab)
     }
 }

@@ -1,4 +1,6 @@
-package com.skyous.trakkit.ui
+package com.skyous.trakkit.ui.component
+
+import com.skyous.trakkit.data.viewmodel.BaseViewModel
 
 /**
  * Model class representing a horizontal stripe

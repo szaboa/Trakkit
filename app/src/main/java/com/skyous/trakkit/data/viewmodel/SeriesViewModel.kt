@@ -1,4 +1,6 @@
-package com.skyous.trakkit.ui
+package com.skyous.trakkit.data.viewmodel
+
+import com.skyous.trakkit.data.viewmodel.BaseViewModel
 
 /**
  * TODO

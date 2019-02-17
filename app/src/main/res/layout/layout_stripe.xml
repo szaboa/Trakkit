@@ -17,7 +17,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.skyous.trakkit.ui.HorizontalStripeView
+    <com.skyous.trakkit.ui.component.HorizontalStripeView
         android:id="@+id/stripeView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

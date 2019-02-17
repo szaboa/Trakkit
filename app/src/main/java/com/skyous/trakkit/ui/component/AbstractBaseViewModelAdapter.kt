@@ -1,4 +1,4 @@
-package com.skyous.trakkit.ui
+package com.skyous.trakkit.ui.component
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -11,6 +11,10 @@ import butterknife.ButterKnife
 import com.bumptech.glide.RequestManager
 import com.skyous.trakkit.R
 import com.skyous.trakkit.TrakkitApplication
+import com.skyous.trakkit.data.viewmodel.BaseViewModel
+import com.skyous.trakkit.data.viewmodel.SeriesViewModel
+import com.skyous.trakkit.ui.util.ScreenConfig
+import com.skyous.trakkit.ui.extension.load
 import javax.inject.Inject
 
 /**

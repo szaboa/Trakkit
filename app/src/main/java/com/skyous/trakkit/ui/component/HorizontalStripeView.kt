@@ -1,4 +1,4 @@
-package com.skyous.trakkit.ui
+package com.skyous.trakkit.ui.component
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView

@@ -1,4 +1,4 @@
-package com.skyous.trakkit.ui
+package com.skyous.trakkit.ui.util
 
 import android.content.Context
 import android.util.TypedValue

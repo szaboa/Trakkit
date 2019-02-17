@@ -1,4 +1,4 @@
-package com.skyous.trakkit.ui
+package com.skyous.trakkit.ui.extension
 
 import android.widget.ImageView
 import com.bumptech.glide.RequestManager
