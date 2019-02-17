@@ -6,10 +6,10 @@ import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
 import android.util.Log
 import com.skyous.trakkit.R
-import com.skyous.trakkit.ui.ExploreFragment
-import com.skyous.trakkit.ui.HomeFragment
-import com.skyous.trakkit.ui.LibraryFragment
-import com.skyous.trakkit.ui.ProfileFragment
+import com.skyous.trakkit.ui.explore.ExploreFragment
+import com.skyous.trakkit.ui.home.HomeFragment
+import com.skyous.trakkit.ui.library.LibraryFragment
+import com.skyous.trakkit.ui.profile.ProfileFragment
 import java.lang.ref.WeakReference
 
 /**

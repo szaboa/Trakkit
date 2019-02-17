@@ -3,6 +3,7 @@ package com.skyous.trakkit.di
 import com.skyous.trakkit.di.module.ApplicationModule
 import com.skyous.trakkit.di.module.NetworkModule
 import com.skyous.trakkit.di.module.RepositoryModule
+import com.skyous.trakkit.ui.component.AbstractBaseViewModelAdapter
 import com.skyous.trakkit.ui.MainActivity
 import dagger.Component
 import javax.inject.Singleton
@@ -20,4 +21,6 @@ import javax.inject.Singleton
 interface ApplicationComponent {
 
     fun inject(activity: MainActivity)
+
+    fun inject(adapter: AbstractBaseViewModelAdapter)
 }
