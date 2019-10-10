@@ -1,8 +1,8 @@
 package com.skyous.trakkit.ui
 
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.v7.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.appcompat.app.AppCompatActivity
 import com.skyous.trakkit.R
 import com.skyous.trakkit.TrakkitApplication
 import com.skyous.trakkit.ui.navigation.core.BackNavigationListener
@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), BackNavigationListener {
         super.onDestroy()
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
+    override fun onSaveInstanceState(outState: Bundle) {
         mainNavigator.onSaveInstanceState(outState)
         super.onSaveInstanceState(outState)
     }

@@ -1,8 +1,8 @@
 package com.skyous.trakkit.ui.component
 
 import android.content.Context
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.RequestManager
 
 /**
@@ -14,7 +14,7 @@ import com.bumptech.glide.RequestManager
  */
 class HorizontalStripeAdapter(val context: Context, requestManager: RequestManager) : AbstractBaseViewModelAdapter(requestManager) {
 
-    override fun getLayoutManager(): RecyclerView.LayoutManager {
-        return LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+    override fun getLayoutManager(): androidx.recyclerview.widget.RecyclerView.LayoutManager {
+        return androidx.recyclerview.widget.LinearLayoutManager(context, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, false)
     }
 }

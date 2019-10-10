@@ -1,6 +1,6 @@
 package com.skyous.trakkit.ui.component
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,7 +24,7 @@ import javax.inject.Inject
  * @since 10/20/2018
  *
  */
-abstract class AbstractBaseViewModelAdapter(private val requestManager: RequestManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+abstract class AbstractBaseViewModelAdapter(private val requestManager: RequestManager) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
 
     @Inject
     lateinit var screenConfig: ScreenConfig
@@ -35,7 +35,7 @@ abstract class AbstractBaseViewModelAdapter(private val requestManager: RequestM
         TrakkitApplication.getComponent().inject(this)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return when (BaseViewModel.Type.from(viewType)) {
             BaseViewModel.Type.SERIES -> {
                 val viewHolder = SeriesViewHolder(requestManager, LayoutInflater.from(parent.context).inflate(R.layout.item_series, parent, false))
@@ -48,7 +48,7 @@ abstract class AbstractBaseViewModelAdapter(private val requestManager: RequestM
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         (holder as BaseViewHolder).bind(items[holder.adapterPosition])
     }
 
@@ -59,7 +59,7 @@ abstract class AbstractBaseViewModelAdapter(private val requestManager: RequestM
     /**
      * TODO
      */
-    abstract fun getLayoutManager(): RecyclerView.LayoutManager
+    abstract fun getLayoutManager(): androidx.recyclerview.widget.RecyclerView.LayoutManager
 
     /**
      * TODO
@@ -72,7 +72,7 @@ abstract class AbstractBaseViewModelAdapter(private val requestManager: RequestM
     /**
      * TODO
      */
-    abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    abstract class BaseViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         abstract fun bind(item: BaseViewModel)
     }
 
