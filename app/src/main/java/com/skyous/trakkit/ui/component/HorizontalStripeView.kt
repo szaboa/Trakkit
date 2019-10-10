@@ -1,7 +1,7 @@
 package com.skyous.trakkit.ui.component
 
 import android.content.Context
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.bumptech.glide.RequestManager
@@ -13,7 +13,7 @@ import com.bumptech.glide.RequestManager
  * @since 10/19/2018
  *
  */
-class HorizontalStripeView : RecyclerView {
+class HorizontalStripeView : androidx.recyclerview.widget.RecyclerView {
 
     lateinit var horizontalStripeAdapter: HorizontalStripeAdapter
 

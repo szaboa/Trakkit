@@ -1,6 +1,6 @@
 package com.skyous.trakkit.ui.component
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,11 +18,11 @@ import com.skyous.trakkit.data.viewmodel.BaseViewModel
  * @since 10/19/2018
  *
  */
-class VerticalComponentListAdapter<T : BaseViewModel>(val requestManager: RequestManager) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class VerticalComponentListAdapter<T : BaseViewModel>(val requestManager: RequestManager) : androidx.recyclerview.widget.RecyclerView.Adapter<androidx.recyclerview.widget.RecyclerView.ViewHolder>() {
     private var items: List<BaseVerticalComponent<T>> = ArrayList()
-    private val viewPool = RecyclerView.RecycledViewPool()
+    private val viewPool = androidx.recyclerview.widget.RecyclerView.RecycledViewPool()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): androidx.recyclerview.widget.RecyclerView.ViewHolder {
         return when (BaseVerticalComponent.Type.from(viewType)) {
             BaseVerticalComponent.Type.STRIPE -> {
                 val viewHolder = StripeViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.layout_stripe, parent, false), requestManager)
@@ -33,7 +33,7 @@ class VerticalComponentListAdapter<T : BaseViewModel>(val requestManager: Reques
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: androidx.recyclerview.widget.RecyclerView.ViewHolder, position: Int) {
         (holder as BaseViewHolder).bind(items[holder.adapterPosition])
     }
 
@@ -49,7 +49,7 @@ class VerticalComponentListAdapter<T : BaseViewModel>(val requestManager: Reques
     /**
      * TODO
      */
-    abstract class BaseViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    abstract class BaseViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
         abstract fun <T : BaseViewModel> bind(item: BaseVerticalComponent<T>)
     }
 

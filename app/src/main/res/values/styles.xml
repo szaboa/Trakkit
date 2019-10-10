@@ -9,9 +9,9 @@
         <item name="android:navigationBarColor">@color/colorPrimary</item>
     </style>
 
-    <style name="AppTheme.Launcher">
+<!--    <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/image_splash</item>
-    </style>
+    </style>-->
 
     <style name="FragmentTheme" parent="AppTheme">
         <item name="android:background">@color/windowBackground</item>

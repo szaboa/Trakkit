@@ -1,9 +1,9 @@
 package com.skyous.trakkit.ui.navigation.core
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import android.util.Log
 import com.skyous.trakkit.R
 import com.skyous.trakkit.ui.explore.ExploreFragment
@@ -48,7 +48,7 @@ class MainNavigator {
     private var backNavigationListener: BackNavigationListener? = null
 
     private val fragmentContainer: HashMap<String, Fragment> = HashMap()
-    private val navigationHistory: ArrayList<MainNavigator.Tab> = ArrayList()
+    private val navigationHistory: ArrayList<Tab> = ArrayList()
 
     /**
      * Method to be called from the consumer Activity's onCreate method.
@@ -86,7 +86,7 @@ class MainNavigator {
      * @return true if the given tab already exists in the nav history or if the given tab
      * is the same as the currently displayed, false otherwise
      */
-    fun navigateTo(tab: MainNavigator.Tab, extras: Bundle? = null): Boolean {
+    fun navigateTo(tab: Tab, extras: Bundle? = null): Boolean {
         return navigateToInternal(tab, false, extras)
     }
 
@@ -99,7 +99,7 @@ class MainNavigator {
      * is the same as the currently displayed, false otherwise
      */
     fun navigateTo(tabResourceId: Int, extras: Bundle? = null): Boolean {
-        return navigateToInternal(MainNavigator.Tab.fromItemResourceId(tabResourceId), false, extras)
+        return navigateToInternal(Tab.fromItemResourceId(tabResourceId), false, extras)
     }
 
     /**
@@ -137,7 +137,7 @@ class MainNavigator {
         hostActivity?.clear()
     }
 
-    private fun navigateToInternal(tab: MainNavigator.Tab, isBackNavigation: Boolean, extras: Bundle? = null): Boolean {
+    private fun navigateToInternal(tab: Tab, isBackNavigation: Boolean, extras: Bundle? = null): Boolean {
         val supportFragmentManager = hostActivity?.get()?.supportFragmentManager
 
         return if (!navigationHistory.isEmpty() && tab == navigationHistory[navigationHistory.lastIndex]) {
@@ -164,7 +164,7 @@ class MainNavigator {
         }
     }
 
-    private fun updateNavigationHistory(tab: MainNavigator.Tab, isBackNavigation: Boolean) {
+    private fun updateNavigationHistory(tab: Tab, isBackNavigation: Boolean) {
         if (isBackNavigation) {
             navigationHistory.removeAt(navigationHistory.lastIndex)
         } else {
@@ -172,24 +172,27 @@ class MainNavigator {
         }
     }
 
-    private fun replaceFragment(tab: MainNavigator.Tab, supportFragmentManager: FragmentManager?, extras: Bundle?) {
-
+    private fun replaceFragment(tab: Tab, supportFragmentManager: FragmentManager?, extras: Bundle?) {
         val destinationFragment = getFragmentForTab(tab)
         if (extras != null) {
             destinationFragment.arguments = extras
         }
-        supportFragmentManager?.findFragmentById(R.id.fragmentContainer)?.let { supportFragmentManager.beginTransaction().remove(it).commitNowAllowingStateLoss() }
-        destinationFragment.let { supportFragmentManager?.beginTransaction()?.add(R.id.fragmentContainer, it)?.commitNowAllowingStateLoss() }
+        supportFragmentManager?.findFragmentById(R.id.fragmentContainer)?.let {
+            supportFragmentManager.beginTransaction().remove(it).commitNowAllowingStateLoss()
+        }
+        destinationFragment.let {
+            supportFragmentManager?.beginTransaction()?.add(R.id.fragmentContainer, it)?.commitNowAllowingStateLoss()
+        }
     }
 
-    private fun getFragmentForTab(tab: MainNavigator.Tab): Fragment {
+    private fun getFragmentForTab(tab: Tab): Fragment {
         if (!fragmentContainer.containsKey(tab.tabName)) {
             Log.d(TAG, "Creating new Fragment for tab: $tab")
             when (tab) {
-                MainNavigator.Tab.HOME -> fragmentContainer[tab.tabName] = HomeFragment()
-                MainNavigator.Tab.LIBRARY -> fragmentContainer[tab.tabName] = LibraryFragment()
-                MainNavigator.Tab.EXPLORE -> fragmentContainer[tab.tabName] = ExploreFragment()
-                MainNavigator.Tab.PROFILE -> fragmentContainer[tab.tabName] = ProfileFragment()
+                Tab.HOME -> fragmentContainer[tab.tabName] = HomeFragment()
+                Tab.LIBRARY -> fragmentContainer[tab.tabName] = LibraryFragment()
+                Tab.EXPLORE -> fragmentContainer[tab.tabName] = ExploreFragment()
+                Tab.PROFILE -> fragmentContainer[tab.tabName] = ProfileFragment()
             }
         } else {
             Log.d(TAG, "Fragment for tab: $tab -  already exists!")
